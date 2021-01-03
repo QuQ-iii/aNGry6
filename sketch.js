@@ -1,3 +1,42 @@
+//null - empty or nothing
+//undefined - no value assigned to the variable
+
+// var string ="nyla fernando";
+// console.log(string);
+
+// var num = 100;
+// console.log(num);
+
+// var bool = true;
+// console.log(bool);
+
+// var object;
+// console.log(object);
+
+// var object1 = null;
+// console.log(object1);
+
+// var array1 = [1,2,3,4,5];
+// console.log(array1);
+
+// var array2 = [string, num, bool, object1];
+// console.log(array2);
+
+// var array3 = [[1,2],[3,4],[5,6]];
+
+// array3.push("seven");
+// console.log(array3);
+
+// array3.pop();
+// console.log(array3);
+
+// var arr = [1, 2, 3, 4];
+// arr is [1, 2, 3, 4];
+// var el = arr.splice(0, 1);
+// console.log(arr)
+// el is [1], arr is now [2, 3, 4].
+
+
 const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
@@ -8,16 +47,18 @@ var box1, pig1,pig3;
 var backgroundImg,platform;
 var bird, slingshot;
 
+var gameState = "onSling";
+
 
 function preload() {
     backgroundImg = loadImage("sprites/bg.png");
 }
 
 function setup(){
+
     var canvas = createCanvas(1200,400);
     engine = Engine.create();
     world = engine.world;
-
 
     ground = new Ground(600,height,1200,20);
     platform = new Ground(150, 305, 300, 170);
@@ -41,6 +82,8 @@ function setup(){
 
     //log6 = new Log(230,180,80, PI/2);
     slingshot = new SlingShot(bird.body,{x:200, y:50});
+
+   
 }
 
 function draw(){
@@ -69,16 +112,21 @@ function draw(){
 }
 
 function mouseDragged(){
-    Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+    if(gameState !== "launched")
+        Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+    
 }
 
 
 function mouseReleased(){
+    
     slingshot.fly();
+    gameState = "launched";
+    
 }
 
-function keyPressed(){
-    if(keyCode === 32){
-        slingshot.attach(bird.body);
-    }
-}
+// function keyPressed(){
+//     if(keyCode === 32){
+//         slingshot.attach(bird.body);
+//     }
+// }
